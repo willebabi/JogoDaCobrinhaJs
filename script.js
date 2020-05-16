@@ -30,6 +30,13 @@ function iniciarJogo () {
     if (vcobra[0].y > 15 * vbox && vdirect == 'down') vcobra[0].y = 0;
     if (vcobra[0].y < 0 && vdirect == 'up') vcobra[0].y = 16 * vbox;
 
+    for (i=1; i < vcobra.length; i++) {
+        if (vcobra[0].x == vcobra[i].x && vcobra[0].y == vcobra[i].y) {
+            clearInterval(jogo);
+            alert("Game OVER! :(");
+        }
+    }
+
     criarBG();
     criaCobra();
     ponto();
@@ -79,4 +86,4 @@ function atualiza (e) {
 
 document.addEventListener("keydown",atualiza);
 
-let jogo = setInterval(iniciarJogo,100);
+let jogo = setInterval(iniciarJogo,300);

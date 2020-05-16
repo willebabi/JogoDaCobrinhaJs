@@ -7,6 +7,10 @@ vcobra[0] = {
     y: 8 * vbox
 }
 let vdirect = "right";
+let vcomida = {
+    x: Math.floor(Math.random() * 15 + 1) * vbox,
+    y: Math.floor(Math.random() * 15 + 1) * vbox
+};
 
 function criarBG () {
     vctx.fillStyle = "lightgreen";
@@ -20,7 +24,6 @@ function criaCobra () {
     }
 }
 
-
 function iniciarJogo () {
     if (vcobra[0].x > 15 * vbox && vdirect == 'right') vcobra[0].x = 0;
     if (vcobra[0].x < 0 && vdirect == 'left') vcobra[0].x = 16 * vbox;
@@ -29,6 +32,7 @@ function iniciarJogo () {
 
     criarBG();
     criaCobra();
+    ponto();
 
     let vcobrax = vcobra[0].x;
     let vcobray = vcobra[0].y;
@@ -38,7 +42,12 @@ function iniciarJogo () {
     if (vdirect == 'up') vcobray -= vbox;
     if (vdirect == 'down') vcobray += vbox;
 
-    vcobra.pop();
+    if (vcobrax != vcomida.x || vcobray != vcomida.y) {
+        vcobra.pop();
+    } else {
+        vcomida.x = Math.floor(Math.random() * 15 + 1) * vbox;
+        vcomida.y = Math.floor(Math.random() * 15 + 1) * vbox;
+    }
 
     let novohead = {
         x:vcobrax,
@@ -46,6 +55,11 @@ function iniciarJogo () {
     }
 
     vcobra.unshift(novohead);
+}
+
+function ponto () {
+    vctx.fillStyle = "red";
+    vctx.fillRect(vcomida.x,vcomida.y,vbox,vbox);
 }
 
 function atualiza (e) {

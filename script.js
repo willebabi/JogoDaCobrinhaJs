@@ -15,12 +15,18 @@ function criarBG () {
 
 function criaCobra () {
     for (i=0; i < vcobra.length; i++) {
-        vctx.fillStyle = "green";
+        vctx.fillStyle = "blue";
         vctx.fillRect(vcobra[i].x,vcobra[i].y,vbox,vbox);
     }
 }
 
+
 function iniciarJogo () {
+    if (vcobra[0].x > 15 * vbox && vdirect == 'right') vcobra[0].x = 0;
+    if (vcobra[0].x < 0 && vdirect == 'left') vcobra[0].x = 16 * vbox;
+    if (vcobra[0].y > 15 * vbox && vdirect == 'down') vcobra[0].y = 0;
+    if (vcobra[0].y < 0 && vdirect == 'up') vcobra[0].y = 16 * vbox;
+
     criarBG();
     criaCobra();
 
@@ -32,7 +38,7 @@ function iniciarJogo () {
     if (vdirect == 'up') vcobray -= vbox;
     if (vdirect == 'down') vcobray += vbox;
 
-    vcobrax.pop();
+    vcobra.pop();
 
     let novohead = {
         x:vcobrax,
@@ -41,5 +47,22 @@ function iniciarJogo () {
 
     vcobra.unshift(novohead);
 }
+
+function atualiza (e) {
+    if (e.keyCode == 37 && vdirect != "right") {
+        vdirect = "left";
+    }
+    if (e.keyCode == 38 && vdirect != "down") {
+        vdirect = "up";
+    }
+    if (e.keyCode == 39 && vdirect != "left") {
+        vdirect = "right";
+    }
+    if (e.keyCode == 40 && vdirect != "up") {
+        vdirect = "down";
+    }
+}
+
+document.addEventListener("keydown",atualiza);
 
 let jogo = setInterval(iniciarJogo,100);
